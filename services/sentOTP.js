@@ -3,7 +3,7 @@ const authToken = process.env.AUTHTOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 
-const sendOTP = async (OTP , phoneNumber)=>{
+const sendSmsOtp = async (OTP , phoneNumber)=>{
     const messageOption = {
         body: `Your OTP is ${OTP} from CodingWorkx`,
         to: '+91'+ phoneNumber, 
@@ -11,8 +11,12 @@ const sendOTP = async (OTP , phoneNumber)=>{
 
     }
 
-    const response = await client.messages.create(messageOption);
-    console.log("otp res",response);
+    try {
+        const response = await client.messages.create(messageOption);
+    } catch (err) {
+        console.log('Error from otp sending',err);
+    }
+    
 }
 
-module.exports = sendOTP;
+module.exports = sendSmsOtp;
